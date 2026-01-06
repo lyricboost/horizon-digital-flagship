@@ -201,16 +201,19 @@
     grid-template-rows: 1fr;
     min-height: 500px;
     padding: 0 30px 60px;
+    isolation: isolate;
   }
   
   /* Left Nav */
   .editorial-hero__left-nav {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding-right: 30px;
     gap: 16px;
     min-width: 100px;
+    z-index: 10;
   }
   
   .editorial-hero__nav-list {
@@ -255,14 +258,15 @@
     align-items: center;
     justify-content: {{ main_image_position | default: 'center' }};
     overflow: hidden;
+    z-index: 1;
   }
   
   .editorial-hero__image {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    z-index: 2;
     position: relative;
+    z-index: 2;
   }
   
   /* Decorative Word Overlay */
