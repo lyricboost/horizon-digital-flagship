@@ -94,6 +94,11 @@
 
   .content-slider__slideshow {
     width: 100%;
+    position: relative;
+  }
+
+  .content-slider__slideshow slideshow-container {
+    position: relative;
   }
 
   .content-slider__slide {
@@ -207,14 +212,19 @@
     right: var(--padding-xl);
     display: flex;
     gap: var(--gap-sm);
-    z-index: 3;
+    z-index: 10;
     left: auto;
     transform: none;
+    pointer-events: auto;
 
     @media screen and (min-width: 750px) {
       bottom: var(--padding-2xl);
       right: var(--padding-2xl);
     }
+  }
+
+  .content-slider__slideshow slideshow-arrows .slideshow-control {
+    pointer-events: auto;
   }
 
   .section-content-slider--arrows-on-sides slideshow-arrows {
