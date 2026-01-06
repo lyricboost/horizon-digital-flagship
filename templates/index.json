@@ -105,6 +105,7 @@
         "slide_QEdahh": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/black-fashionista-lady.png",
             "title": "New Collection",
             "subtitle": "Fall 2018",
             "text": "<p>Explore our newest arrivals that blend comfort with contemporary fashion. Curated designs that make a statement.</p>"
