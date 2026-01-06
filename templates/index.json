@@ -155,6 +155,142 @@
         "padding-block-end": 48
       }
     },
+    "media_with_content_8KmQzA": {
+      "type": "media-with-content",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Future of Shopping",
+            "heading_size": "h2"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Where innovation meets style. We're not just selling products—we're curating experiences that blend cutting-edge design with sustainable practices. Every item tells a story of craftsmanship, technology, and conscious consumption.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Explore Innovation",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "layout": "image_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-2",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "product_hotspots_NpR3xB": {
+      "type": "product-hotspots",
+      "blocks": {
+        "hotspot_1": {
+          "type": "hotspot",
+          "settings": {
+            "horizontal_position": 35,
+            "vertical_position": 40,
+            "product": ""
+          }
+        },
+        "hotspot_2": {
+          "type": "hotspot",
+          "settings": {
+            "horizontal_position": 65,
+            "vertical_position": 55,
+            "product": ""
+          }
+        },
+        "hotspot_3": {
+          "type": "hotspot",
+          "settings": {
+            "horizontal_position": 50,
+            "vertical_position": 70,
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_1",
+        "hotspot_2",
+        "hotspot_3"
+      ],
+      "settings": {
+        "title": "Shop the Look",
+        "heading_size": "h2",
+        "desktop_layout": "image_first",
+        "mobile_layout": "image_first",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "marquee_7TdWfC": {
+      "type": "marquee",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "Sustainable Design"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "Future Forward"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Conscious Commerce"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "Innovation First"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Style Redefined"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5"
+      ],
+      "settings": {
+        "direction": "left",
+        "speed": 50,
+        "separator": "•",
+        "text_size": "large",
+        "color_scheme": "scheme-3",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -353,6 +489,9 @@
   "order": [
     "editorial_hero_rg4pUw",
     "content_slider_ey89kT",
-    "product_list_fa6P9H"
+    "media_with_content_8KmQzA",
+    "product_list_fa6P9H",
+    "product_hotspots_NpR3xB",
+    "marquee_7TdWfC"
   ]
 }
