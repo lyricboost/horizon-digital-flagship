@@ -282,7 +282,7 @@
     opacity: var(--decorative-opacity);
     mix-blend-mode: {{ decorative_text_blend }};
     pointer-events: none;
-    z-index: 1;
+    z-index: 3;
     white-space: nowrap;
     font-style: italic;
     {% if decorative_font_family != blank %}
@@ -294,14 +294,14 @@
   
   /* Right Text Block */
   .editorial-hero__right-text {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding-left: 40px;
     max-width: 280px;
     text-align: {{ text_align }};
-    z-index: 5;
-    position: relative;
+    z-index: 10;
   }
   
   {% if show_rule_lines %}
