@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "hero_jVaWmY": {
       "type": "hero",
@@ -62,6 +62,10 @@
       "settings": {
         "media_type_1": "image",
         "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
         "content_direction": "column",
@@ -84,6 +88,54 @@
         "reflection_opacity": 75,
         "padding-block-start": 100,
         "padding-block-end": 72
+      }
+    },
+    "content_slider_ey89kT": {
+      "type": "content-slider",
+      "blocks": {
+        "slide_hEnFfQ": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/fashionista-lady.png",
+            "title": "Lisa Perry",
+            "subtitle": "Summer 2018",
+            "text": "<p>Discover the latest collection featuring bold colors and sophisticated designs. This season brings together timeless elegance with modern sensibilities.</p><p>Each piece is carefully crafted to bring out your unique style and personality.</p>"
+          }
+        },
+        "slide_QEdahh": {
+          "type": "slide",
+          "settings": {
+            "title": "New Collection",
+            "subtitle": "Fall 2018",
+            "text": "<p>Explore our newest arrivals that blend comfort with contemporary fashion. Curated designs that make a statement.</p>"
+          }
+        },
+        "slide_F6bN9T": {
+          "type": "slide",
+          "settings": {
+            "title": "Featured Styles",
+            "subtitle": "Limited Edition",
+            "text": "<p>Exclusive pieces available for a limited time. Don't miss out on these unique additions to your wardrobe.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "slide_hEnFfQ",
+        "slide_QEdahh",
+        "slide_F6bN9T"
+      ],
+      "name": "Content Slider",
+      "settings": {
+        "section_width": "page-width",
+        "color_scheme": "",
+        "title_type_preset": "h2",
+        "subtitle_type_preset": "h4",
+        "text_type_preset": "paragraph",
+        "icons_style": "arrow",
+        "icons_shape": "square",
+        "arrows_position": "bottom",
+        "padding-block-start": 48,
+        "padding-block-end": 48
       }
     },
     "product_list_fa6P9H": {
@@ -283,6 +335,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "content_slider_ey89kT",
     "product_list_fa6P9H"
   ]
 }
