@@ -1,0 +1,1142 @@
+{% comment %}
+  =============================================
+  EDITORIAL HERO SECTION
+  =============================================
+  
+  A magazine-style editorial hero with:
+  - Layered typography (huge decorative word overlay)
+  - Main centered hero image
+  - Top navigation bar (prev/next + label)
+  - Left vertical mini-nav
+  - Right-side text block (kicker + body)
+  - Bottom strip with 1-3 tile cards
+  
+  SETTINGS:
+  - Layout: container width, aspect ratio, padding
+  - Style: background color, decorative text styling, borders
+  - Content: images, text, links, decorative word
+  - Bottom strip: positioning, overlap, styling
+  
+  BLOCKS:
+  - nav_item: Left vertical navigation links (0-6)
+  - tile: Bottom card tiles - image or text type (0-3)
+  
+  USAGE:
+  Add to theme editor, configure colors/images,
+  add nav_item blocks for left nav,
+  add tile blocks for bottom cards.
+{% endcomment %}
+
+{%- liquid
+  assign container_width = section.settings.container_width
+  assign canvas_max_width = section.settings.canvas_max_width
+  assign canvas_aspect = section.settings.canvas_aspect
+  assign custom_min_height = section.settings.custom_min_height
+  assign padding_y = section.settings.padding_y
+  assign padding_x = section.settings.padding_x
+  
+  assign bg_color = section.settings.background_color
+  assign accent_color = section.settings.accent_color
+  assign decorative_text_color = section.settings.decorative_text_color
+  assign decorative_text_opacity = section.settings.decorative_text_opacity
+  assign decorative_text_blend = section.settings.decorative_text_blend
+  assign border_radius = section.settings.border_radius
+  assign shadow = section.settings.shadow
+  
+  assign top_center_label = section.settings.top_center_label
+  assign prev_label = section.settings.prev_label
+  assign prev_link = section.settings.prev_link
+  assign next_label = section.settings.next_label
+  assign next_link = section.settings.next_link
+  assign decorative_word = section.settings.decorative_word
+  assign kicker = section.settings.kicker
+  assign body = section.settings.body
+  assign main_image = section.settings.main_image
+  assign main_image_alt = section.settings.main_image_alt
+  assign main_image_position = section.settings.main_image_position
+  assign text_align = section.settings.text_align
+  assign show_left_nav = section.settings.show_left_nav
+  
+  assign show_bottom_strip = section.settings.show_bottom_strip
+  assign bottom_strip_position = section.settings.bottom_strip_position
+  assign bottom_strip_overlap = section.settings.bottom_strip_overlap
+  assign bottom_strip_bg = section.settings.bottom_strip_bg
+  assign bottom_strip_gap = section.settings.bottom_strip_gap
+  
+  assign copyright_text = section.settings.copyright_text
+  assign show_rule_lines = section.settings.show_rule_lines
+  assign overlay_panel = section.settings.overlay_panel
+  
+  assign decorative_font_family = section.settings.decorative_font_family
+-%}
+
+{% style %}
+  #editorial-hero-{{ section.id }} {
+    --padding-y: {{ padding_y }}px;
+    --padding-x: {{ padding_x }}px;
+    --bg-color: {{ bg_color }};
+    --accent-color: {{ accent_color }};
+    --decorative-color: {{ decorative_text_color }};
+    --decorative-opacity: {{ decorative_text_opacity | divided_by: 100.0 }};
+    --border-radius: {{ border_radius }}px;
+    --bottom-overlap: {{ bottom_strip_overlap }}px;
+    --bottom-gap: {{ bottom_strip_gap }}px;
+    --canvas-max-width: {{ canvas_max_width }}px;
+    {% if custom_min_height > 0 and canvas_aspect == 'custom_min_height' %}
+      --canvas-min-height: {{ custom_min_height }}px;
+    {% endif %}
+  }
+  
+  .editorial-hero {
+    position: relative;
+    padding: var(--padding-y) var(--padding-x);
+    width: 100%;
+  }
+  
+  .editorial-hero__overlay-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: {{ overlay_panel }};
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .editorial-hero__canvas {
+    position: relative;
+    max-width: {% if container_width == 'page' %}var(--canvas-max-width){% else %}100%{% endif %};
+    margin: 0 auto;
+    background: var(--bg-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    {% if shadow %}
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    {% endif %}
+    {% if canvas_aspect == '16:9' %}
+      aspect-ratio: 16 / 9;
+    {% elsif canvas_aspect == '3:2' %}
+      aspect-ratio: 3 / 2;
+    {% elsif canvas_aspect == '1:1' %}
+      aspect-ratio: 1 / 1;
+    {% elsif canvas_aspect == 'custom_min_height' %}
+      min-height: var(--canvas-min-height);
+    {% else %}
+      min-height: 420px;
+    {% endif %}
+    z-index: 1;
+  }
+  
+  /* Top Bar */
+  .editorial-hero__top-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 20px 30px;
+    gap: 20px;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .editorial-hero__top-nav {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  
+  .editorial-hero__top-nav--prev {
+    text-align: left;
+  }
+  
+  .editorial-hero__top-nav--next {
+    text-align: right;
+  }
+  
+  .editorial-hero__top-nav a {
+    color: var(--accent-color, currentColor);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  
+  .editorial-hero__top-nav a:hover {
+    opacity: 0.7;
+  }
+  
+  .editorial-hero__top-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-align: center;
+  }
+  
+  {% if show_rule_lines %}
+    .editorial-hero__top-bar::before,
+    .editorial-hero__top-bar::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 80px;
+      height: 1px;
+      background: var(--accent-color, currentColor);
+      opacity: 0.3;
+    }
+    
+    .editorial-hero__top-bar::before {
+      left: 30px;
+    }
+    
+    .editorial-hero__top-bar::after {
+      right: 30px;
+    }
+  {% endif %}
+  
+  /* Main Grid */
+  .editorial-hero__main {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 1fr;
+    min-height: 500px;
+    padding: 0 30px 60px;
+  }
+  
+  /* Left Nav */
+  .editorial-hero__left-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 30px;
+    gap: 16px;
+    min-width: 100px;
+  }
+  
+  .editorial-hero__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .editorial-hero__nav-item {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+  }
+  
+  .editorial-hero__nav-link {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-color, currentColor);
+    text-decoration: none;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  
+  .editorial-hero__nav-link:hover,
+  .editorial-hero__nav-link--active {
+    opacity: 1;
+    font-weight: 600;
+  }
+  
+  .editorial-hero__nav-link:not(.editorial-hero__nav-link--active) {
+    opacity: 0.6;
+  }
+  
+  /* Center Hero Area */
+  .editorial-hero__center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: {{ main_image_position | default: 'center' }};
+    overflow: hidden;
+  }
+  
+  .editorial-hero__image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    z-index: 2;
+    position: relative;
+  }
+  
+  /* Decorative Word Overlay */
+  .editorial-hero__decorative-word {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(4rem, 12vw, 14rem);
+    font-weight: 900;
+    line-height: 0.9;
+    color: var(--decorative-color);
+    opacity: var(--decorative-opacity);
+    mix-blend-mode: {{ decorative_text_blend }};
+    pointer-events: none;
+    z-index: 1;
+    white-space: nowrap;
+    font-style: italic;
+    {% if decorative_font_family != blank %}
+      font-family: {{ decorative_font_family }};
+    {% else %}
+      font-family: 'Playfair Display', Georgia, serif;
+    {% endif %}
+  }
+  
+  /* Right Text Block */
+  .editorial-hero__right-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 40px;
+    max-width: 280px;
+    text-align: {{ text_align }};
+    z-index: 5;
+    position: relative;
+  }
+  
+  {% if show_rule_lines %}
+    .editorial-hero__right-text::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      {{ text_align }}: 0;
+      width: 60px;
+      height: 1px;
+      background: var(--accent-color, currentColor);
+      opacity: 0.4;
+    }
+  {% endif %}
+  
+  .editorial-hero__kicker {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+  
+  .editorial-hero__body {
+    font-size: 12px;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+  
+  /* Copyright */
+  .editorial-hero__copyright {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+    z-index: 5;
+  }
+  
+  /* Bottom Strip */
+  .editorial-hero__bottom-strip {
+    position: absolute;
+    bottom: calc(var(--bottom-overlap) * -1);
+    {{ bottom_strip_position }}: 30px;
+    display: flex;
+    gap: var(--bottom-gap);
+    z-index: 15;
+    {% if bottom_strip_bg != blank %}
+      background: {{ bottom_strip_bg }};
+      padding: 10px;
+      border-radius: calc(var(--border-radius) / 2);
+    {% endif %}
+  }
+  
+  .editorial-hero__tile {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: calc(var(--border-radius) / 2);
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .editorial-hero__tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .editorial-hero__tile:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+  
+  .editorial-hero__tile--image {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .editorial-hero__tile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .editorial-hero__tile--text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 24px;
+    min-width: 140px;
+    min-height: 140px;
+    text-align: center;
+  }
+  
+  .editorial-hero__tile-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+  }
+  
+  .editorial-hero__tile-subtitle {
+    font-size: 12px;
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+  
+  /* Responsive */
+  @media (max-width: 990px) {
+    .editorial-hero__main {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 30px;
+      padding: 30px 20px 80px;
+    }
+    
+    .editorial-hero__left-nav {
+      display: none;
+    }
+    
+    .editorial-hero__center {
+      order: 1;
+      justify-content: center;
+      min-height: 350px;
+    }
+    
+    .editorial-hero__right-text {
+      order: 2;
+      padding: 0;
+      max-width: 100%;
+      text-align: center;
+      margin: 0 auto;
+    }
+    
+    .editorial-hero__decorative-word {
+      font-size: clamp(3rem, 15vw, 6rem);
+    }
+    
+    .editorial-hero__bottom-strip {
+      position: static;
+      margin-top: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      left: 0;
+      right: 0;
+      padding: 0 20px;
+    }
+    
+    .editorial-hero__top-bar {
+      padding: 15px 20px;
+    }
+    
+    {% if show_rule_lines %}
+      .editorial-hero__top-bar::before,
+      .editorial-hero__top-bar::after {
+        display: none;
+      }
+      
+      .editorial-hero__right-text::before {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    {% endif %}
+  }
+  
+  @media (max-width: 640px) {
+    .editorial-hero__top-bar {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      text-align: center;
+    }
+    
+    .editorial-hero__top-nav {
+      display: none;
+    }
+    
+    .editorial-hero__tile--image,
+    .editorial-hero__tile--text {
+      width: 120px;
+      height: 120px;
+      min-width: 120px;
+      min-height: 120px;
+    }
+    
+    .editorial-hero__bottom-strip {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+{% endstyle %}
+
+<div id="editorial-hero-{{ section.id }}" class="editorial-hero">
+  {% if overlay_panel != blank %}
+    <div class="editorial-hero__overlay-panel"></div>
+  {% endif %}
+  
+  <div class="editorial-hero__canvas">
+    {%- comment -%} Top Bar {%- endcomment -%}
+    <div class="editorial-hero__top-bar">
+      <div class="editorial-hero__top-nav editorial-hero__top-nav--prev">
+        {% if prev_link != blank and prev_label != blank %}
+          <a href="{{ prev_link }}">{{ prev_label }}</a>
+        {% endif %}
+      </div>
+      
+      <div class="editorial-hero__top-label">
+        {% if top_center_label != blank %}
+          {{ top_center_label }}
+        {% endif %}
+      </div>
+      
+      <div class="editorial-hero__top-nav editorial-hero__top-nav--next">
+        {% if next_link != blank and next_label != blank %}
+          <a href="{{ next_link }}">{{ next_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+    
+    {%- comment -%} Main Grid Area {%- endcomment -%}
+    <div class="editorial-hero__main">
+      {%- comment -%} Left Vertical Nav {%- endcomment -%}
+      {% if show_left_nav and section.blocks.size > 0 %}
+        <div class="editorial-hero__left-nav">
+          <nav class="editorial-hero__nav" aria-label="Hero navigation">
+            <ul class="editorial-hero__nav-list">
+              {% for block in section.blocks %}
+                {% if block.type == 'nav_item' %}
+                  <li class="editorial-hero__nav-item" {{ block.shopify_attributes }}>
+                    <a 
+                      href="{{ block.settings.link | default: '#' }}" 
+                      class="editorial-hero__nav-link {% if block.settings.active %}editorial-hero__nav-link--active{% endif %}"
+                    >
+                      {{ block.settings.label }}
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </nav>
+        </div>
+      {% endif %}
+      
+      {%- comment -%} Center Hero Image + Decorative Word {%- endcomment -%}
+      <div class="editorial-hero__center">
+        {% if main_image != blank %}
+          {{
+            main_image
+            | image_url: width: 1200
+            | image_tag:
+              class: 'editorial-hero__image',
+              alt: main_image_alt,
+              loading: 'lazy',
+              widths: '400, 600, 800, 1000, 1200'
+          }}
+        {% else %}
+          <div style="width: 400px; height: 500px; background: rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(0,0,0,0.4);">
+            Hero Image
+          </div>
+        {% endif %}
+        
+        {% if decorative_word != blank %}
+          <div class="editorial-hero__decorative-word" aria-hidden="true">
+            {{ decorative_word }}
+          </div>
+        {% endif %}
+      </div>
+      
+      {%- comment -%} Right Text Block {%- endcomment -%}
+      <div class="editorial-hero__right-text">
+        {% if kicker != blank %}
+          <div class="editorial-hero__kicker">— {{ kicker }}</div>
+        {% endif %}
+        {% if body != blank %}
+          <div class="editorial-hero__body">{{ body }}</div>
+        {% endif %}
+      </div>
+    </div>
+    
+    {%- comment -%} Copyright {%- endcomment -%}
+    {% if copyright_text != blank %}
+      <div class="editorial-hero__copyright">{{ copyright_text }}</div>
+    {% endif %}
+    
+    {%- comment -%} Bottom Strip {%- endcomment -%}
+    {% if show_bottom_strip %}
+      {% assign tile_blocks = section.blocks | where: 'type', 'tile' %}
+      {% if tile_blocks.size > 0 %}
+        <div class="editorial-hero__bottom-strip">
+          {% for block in tile_blocks %}
+            {% if block.settings.tile_type == 'image' %}
+              <a 
+                href="{{ block.settings.link | default: '#' }}" 
+                class="editorial-hero__tile editorial-hero__tile--image"
+                {{ block.shopify_attributes }}
+              >
+                {% if block.settings.image != blank %}
+                  {{
+                    block.settings.image
+                    | image_url: width: 300
+                    | image_tag:
+                      class: 'editorial-hero__tile-image',
+                      loading: 'lazy',
+                      widths: '150, 300'
+                  }}
+                {% else %}
+                  <div style="width: 100%; height: 100%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999;">
+                    Image
+                  </div>
+                {% endif %}
+              </a>
+            {% else %}
+              <a 
+                href="{{ block.settings.link | default: '#' }}" 
+                class="editorial-hero__tile editorial-hero__tile--text"
+                style="{% if block.settings.bg_color != blank %}background: {{ block.settings.bg_color }};{% endif %} {% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {% if block.settings.title != blank %}
+                  <h3 class="editorial-hero__tile-title">{{ block.settings.title }}</h3>
+                {% endif %}
+                {% if block.settings.subtitle != blank %}
+                  <p class="editorial-hero__tile-subtitle">{{ block.settings.subtitle }}</p>
+                {% endif %}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Editorial Hero",
+  "class": "section-editorial-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container width",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full width"
+        },
+        {
+          "value": "page",
+          "label": "Page width"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "canvas_max_width",
+      "label": "Canvas max width (px)",
+      "min": 900,
+      "max": 1600,
+      "step": 50,
+      "default": 1200,
+      "info": "Only applies when container width is 'Page width'"
+    },
+    {
+      "type": "select",
+      "id": "canvas_aspect",
+      "label": "Canvas aspect ratio",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto"
+        },
+        {
+          "value": "16:9",
+          "label": "16:9"
+        },
+        {
+          "value": "3:2",
+          "label": "3:2"
+        },
+        {
+          "value": "1:1",
+          "label": "1:1"
+        },
+        {
+          "value": "custom_min_height",
+          "label": "Custom min height"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "custom_min_height",
+      "label": "Custom min height (px)",
+      "min": 420,
+      "max": 900,
+      "step": 20,
+      "default": 600,
+      "info": "Only applies when aspect ratio is 'Custom min height'"
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#5CE1E6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#000000",
+      "info": "Used for navigation text and rules"
+    },
+    {
+      "type": "color",
+      "id": "decorative_text_color",
+      "label": "Decorative text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "decorative_text_opacity",
+      "label": "Decorative text opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "decorative_text_blend",
+      "label": "Decorative text blend mode",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "multiply",
+          "label": "Multiply"
+        },
+        {
+          "value": "overlay",
+          "label": "Overlay"
+        },
+        {
+          "value": "screen",
+          "label": "Screen"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "shadow",
+      "label": "Add shadow",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Top Bar"
+    },
+    {
+      "type": "text",
+      "id": "top_center_label",
+      "label": "Center label",
+      "default": "1x1",
+      "info": "Small label centered in top bar"
+    },
+    {
+      "type": "text",
+      "id": "prev_label",
+      "label": "Previous label",
+      "default": "prev"
+    },
+    {
+      "type": "url",
+      "id": "prev_link",
+      "label": "Previous link"
+    },
+    {
+      "type": "text",
+      "id": "next_label",
+      "label": "Next label",
+      "default": "next"
+    },
+    {
+      "type": "url",
+      "id": "next_link",
+      "label": "Next link"
+    },
+    {
+      "type": "header",
+      "content": "Main Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "main_image_alt",
+      "label": "Image alt text",
+      "info": "Describe the image for accessibility"
+    },
+    {
+      "type": "select",
+      "id": "main_image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "decorative_word",
+      "label": "Decorative word",
+      "default": "glamour",
+      "info": "Large overlay text (e.g., 'glamour')"
+    },
+    {
+      "type": "text",
+      "id": "decorative_font_family",
+      "label": "Decorative font family",
+      "info": "Optional: CSS font-family value (e.g., 'Playfair Display')"
+    },
+    {
+      "type": "header",
+      "content": "Right Text Block"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Time to change",
+      "info": "Small heading above body text"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Don't forget to reinvent everything around from time to time. A fashion is a style of clothing or a way of behaving."
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Left Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_left_nav",
+      "label": "Show left navigation",
+      "default": true,
+      "info": "Add 'Nav Item' blocks to populate"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Strip"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_strip",
+      "label": "Show bottom strip",
+      "default": true,
+      "info": "Add 'Tile' blocks to populate"
+    },
+    {
+      "type": "select",
+      "id": "bottom_strip_position",
+      "label": "Bottom strip position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_overlap",
+      "label": "Bottom overlap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "px",
+      "info": "How much tiles overlap the canvas"
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_bg",
+      "label": "Bottom strip background",
+      "info": "Optional background for tile group"
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_gap",
+      "label": "Tile gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Optional Enhancements"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rule_lines",
+      "label": "Show decorative rule lines",
+      "default": true,
+      "info": "Thin lines in top bar and near kicker"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "copyright 2018",
+      "info": "Small text in bottom-left corner"
+    },
+    {
+      "type": "color",
+      "id": "overlay_panel",
+      "label": "Overlay panel color",
+      "info": "Optional: faint background panel behind canvas"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_item",
+      "name": "Nav Item",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "active",
+          "label": "Active",
+          "default": false,
+          "info": "Highlight as current page"
+        }
+      ]
+    },
+    {
+      "type": "tile",
+      "name": "Bottom Tile",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "select",
+          "id": "tile_type",
+          "label": "Tile type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "text",
+              "label": "Text"
+            }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "For image tiles only"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Fashionable ways",
+          "info": "For text tiles only"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "to stay",
+          "info": "For text tiles only"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#000000",
+          "info": "For text tiles only"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFFFFF",
+          "info": "For text tiles only"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Hero",
+      "blocks": [
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "Community",
+            "active": false
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "Beauty",
+            "active": true
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "Fashion",
+            "active": false
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "tile_type": "text",
+            "title": "Fashionable ways",
+            "subtitle": "to stay",
+            "bg_color": "#000000",
+            "text_color": "#FFFFFF"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "tile_type": "image"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
