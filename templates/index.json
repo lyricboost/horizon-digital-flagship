@@ -9,85 +9,101 @@
  */
 {
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
+    "editorial_hero_rg4pUw": {
+      "type": "editorial-hero",
       "blocks": {
-        "text_YLPk4p": {
-          "type": "text",
-          "name": "t:names.heading",
+        "nav_item_phwjh7": {
+          "type": "nav_item",
           "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "label": "Community",
+            "link": "",
+            "active": false
+          }
         },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
+        "nav_item_LBWrbM": {
+          "type": "nav_item",
           "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-secondary",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
+            "label": "Beauty",
+            "link": "",
+            "active": true
+          }
+        },
+        "nav_item_kgNedc": {
+          "type": "nav_item",
+          "settings": {
+            "label": "Fashion",
+            "link": "",
+            "active": false
+          }
+        },
+        "tile_KNzptD": {
+          "type": "tile",
+          "settings": {
+            "tile_type": "text",
+            "title": "Fashionable ways",
+            "subtitle": "to stay",
+            "link": "",
+            "bg_color": "#000000",
+            "text_color": "#ffffff"
+          }
+        },
+        "tile_m8r8tg": {
+          "type": "tile",
+          "settings": {
+            "tile_type": "image",
+            "image": "shopify://shop_images/portrait-face-of-attractive-blonde-woman-in-her-20s.png",
+            "title": "Fashionable ways",
+            "subtitle": "to stay",
+            "link": "",
+            "bg_color": "#000000",
+            "text_color": "#FFFFFF"
+          }
         }
       },
       "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
+        "nav_item_phwjh7",
+        "nav_item_LBWrbM",
+        "nav_item_kgNedc",
+        "tile_KNzptD",
+        "tile_m8r8tg"
       ],
-      "name": "t:names.hero",
+      "name": "Editorial Hero",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "container_width": "page",
+        "canvas_max_width": 1200,
+        "canvas_aspect": "auto",
+        "custom_min_height": 600,
+        "padding_y": 40,
+        "padding_x": 20,
+        "background_color": "#596537",
+        "accent_color": "#000000",
+        "decorative_text_color": "#000000",
+        "decorative_text_opacity": 100,
+        "decorative_text_blend": "normal",
+        "border_radius": 0,
+        "shadow": false,
+        "top_center_label": "",
+        "prev_label": "prev",
+        "prev_link": "",
+        "next_label": "next",
+        "next_link": "",
+        "main_image": "shopify://shop_images/nah-make-her-happy-in-a-more-expressive-pose.png",
+        "main_image_alt": "",
+        "main_image_position": "center",
+        "decorative_word": "Smooth",
+        "decorative_font_family": "",
+        "kicker": "Time to change",
+        "body": "Don't forget to reinvent everything around from time to time. A fashion is a style of clothing or a way of behaving.",
+        "text_align": "left",
+        "show_left_nav": true,
+        "show_bottom_strip": true,
+        "bottom_strip_position": "right",
+        "bottom_strip_overlap": 30,
+        "bottom_strip_bg": "",
+        "bottom_strip_gap": 16,
+        "show_rule_lines": true,
+        "copyright_text": "copyright 2018",
+        "overlay_panel": ""
       }
     },
     "content_slider_ey89kT": {
@@ -335,7 +351,7 @@
     }
   },
   "order": [
-    "hero_jVaWmY",
+    "editorial_hero_rg4pUw",
     "content_slider_ey89kT",
     "product_list_fa6P9H"
   ]
