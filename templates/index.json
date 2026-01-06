@@ -93,15 +93,6 @@
     "content_slider_ey89kT": {
       "type": "content-slider",
       "blocks": {
-        "slide_hEnFfQ": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/fashionista-lady.png",
-            "title": "Lisa Perry",
-            "subtitle": "Summer 2018",
-            "text": "<p>Discover the latest collection featuring bold colors and sophisticated designs. This season brings together timeless elegance with modern sensibilities.</p><p>Each piece is carefully crafted to bring out your unique style and personality.</p>"
-          }
-        },
         "slide_QEdahh": {
           "type": "slide",
           "settings": {
@@ -109,6 +100,15 @@
             "title": "New Collection",
             "subtitle": "Fall 2018",
             "text": "<p>Explore our newest arrivals that blend comfort with contemporary fashion. Curated designs that make a statement.</p>"
+          }
+        },
+        "slide_hEnFfQ": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/fashionista-lady.png",
+            "title": "Lisa Perry",
+            "subtitle": "Summer 2018",
+            "text": "<p>Discover the latest collection featuring bold colors and sophisticated designs. This season brings together timeless elegance with modern sensibilities.</p><p>Each piece is carefully crafted to bring out your unique style and personality.</p>"
           }
         },
         "slide_F6bN9T": {
@@ -121,8 +121,8 @@
         }
       },
       "block_order": [
-        "slide_hEnFfQ",
         "slide_QEdahh",
+        "slide_hEnFfQ",
         "slide_F6bN9T"
       ],
       "name": "Content Slider",
