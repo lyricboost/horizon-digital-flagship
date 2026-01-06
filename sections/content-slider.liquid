@@ -31,6 +31,7 @@
   {% capture slides_content %}
     {% for block in section.blocks %}
       <slideshow-slide
+        ref="slides[]"
         id="Slide-{{ section.id }}-{{ forloop.index }}"
         class="content-slider__slide"
         {{ block.shopify_attributes }}
