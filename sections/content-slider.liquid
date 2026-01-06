@@ -92,18 +92,22 @@
   .content-slider__slide {
     min-width: 100%;
     display: flex;
+    min-height: 500px;
+
+    @media screen and (min-width: 750px) {
+      min-height: 600px;
+    }
   }
 
   .content-slider__slide-inner {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    gap: var(--gap-xl);
-    align-items: center;
+    position: relative;
 
     @media screen and (min-width: 750px) {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--gap-2xl);
+      flex-direction: row;
+      align-items: stretch;
     }
   }
 
@@ -112,6 +116,16 @@
     width: 100%;
     overflow: hidden;
     background-color: rgb(var(--color-foreground-rgb) / 0.04);
+    flex-shrink: 0;
+
+    @media screen and (min-width: 750px) {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 55%;
+      height: 100%;
+    }
   }
 
   .content-slider__image {
@@ -142,10 +156,15 @@
     flex-direction: column;
     gap: var(--gap-md);
     justify-content: center;
+    background-color: var(--color-background);
+    z-index: 1;
 
     @media screen and (min-width: 750px) {
-      padding: var(--padding-2xl);
+      padding: var(--padding-2xl) var(--padding-3xl);
       gap: var(--gap-lg);
+      margin-left: auto;
+      width: 50%;
+      min-height: 100%;
     }
   }
 
@@ -178,14 +197,16 @@
   .content-slider__slideshow slideshow-arrows {
     position: absolute;
     bottom: var(--padding-xl);
-    left: 50%;
-    transform: translateX(-50%);
+    right: var(--padding-xl);
     display: flex;
     gap: var(--gap-sm);
-    z-index: 2;
+    z-index: 3;
+    left: auto;
+    transform: none;
 
     @media screen and (min-width: 750px) {
       bottom: var(--padding-2xl);
+      right: var(--padding-2xl);
     }
   }
 
@@ -194,7 +215,8 @@
     justify-content: space-between;
     padding-inline: var(--padding-xl);
     bottom: 50%;
-    transform: translateX(-50%) translateY(50%);
+    right: 0;
+    transform: translateY(50%);
 
     @media screen and (min-width: 750px) {
       padding-inline: var(--padding-2xl);
