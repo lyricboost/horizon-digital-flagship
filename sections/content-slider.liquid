@@ -6,6 +6,11 @@
   if icons_style != 'none'
     assign show_arrows = true
   endif
+
+  assign section_modifier_class = ''
+  if section.settings.arrows_position == 'sides'
+    assign section_modifier_class = 'section-content-slider--arrows-on-sides'
+  endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -15,6 +20,7 @@
     section--{{ section.settings.section_width }}
     color-{{ section.settings.color_scheme }}
     section-content-slider
+    {{ section_modifier_class }}
     spacing-style
   "
   style="
