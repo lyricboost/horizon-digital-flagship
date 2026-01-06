@@ -1,0 +1,487 @@
+{% liquid
+  assign slide_count = section.blocks.size
+  assign icons_style = section.settings.icons_style
+
+  assign show_arrows = false
+  if icons_style != 'none'
+    assign show_arrows = true
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    section-content-slider
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+  "
+  data-testid="content-slider-section"
+>
+  {% capture slides_content %}
+    {% for block in section.blocks %}
+      <slideshow-slide
+        id="Slide-{{ section.id }}-{{ forloop.index }}"
+        class="content-slider__slide"
+        {{ block.shopify_attributes }}
+      >
+        <div class="content-slider__slide-inner">
+          <div class="content-slider__media">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1200
+                | image_tag: loading: 'lazy', widths: '375, 550, 750, 1100, 1500', class: 'content-slider__image'
+              }}
+            {% else %}
+              <div class="content-slider__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {% endif %}
+          </div>
+          <div class="content-slider__content">
+            {% if block.settings.title != blank %}
+              <h2 class="content-slider__title {{ section.settings.title_type_preset }}">
+                {{ block.settings.title }}
+              </h2>
+            {% endif %}
+            {% if block.settings.subtitle != blank %}
+              <p class="content-slider__subtitle {{ section.settings.subtitle_type_preset }}">
+                {{ block.settings.subtitle }}
+              </p>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="content-slider__text rte {{ section.settings.text_type_preset }}">
+                {{ block.settings.text }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </slideshow-slide>
+    {% endfor %}
+  {% endcapture %}
+
+  {% render 'slideshow',
+    class: 'content-slider__slideshow',
+    slides: slides_content,
+    show_arrows: show_arrows,
+    icon_style: icons_style,
+    icon_shape: section.settings.icons_shape,
+    arrows_position: section.settings.arrows_position,
+    auto_hide_controls: false,
+    infinite: true,
+    initial_slide: 0,
+    slide_count: slide_count,
+    slide_position: 'center'
+  %}
+</div>
+
+{% stylesheet %}
+  .section-content-slider {
+    position: relative;
+  }
+
+  .content-slider__slideshow {
+    width: 100%;
+  }
+
+  .content-slider__slide {
+    min-width: 100%;
+    display: flex;
+  }
+
+  .content-slider__slide-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: var(--gap-xl);
+    align-items: center;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap-2xl);
+    }
+  }
+
+  .content-slider__media {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgb(var(--color-foreground-rgb) / 0.04);
+  }
+
+  .content-slider__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .content-slider__placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content-slider__placeholder svg {
+    width: 100%;
+    height: 100%;
+    max-height: 500px;
+  }
+
+  .content-slider__content {
+    padding: var(--padding-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+    justify-content: center;
+
+    @media screen and (min-width: 750px) {
+      padding: var(--padding-2xl);
+      gap: var(--gap-lg);
+    }
+  }
+
+  .content-slider__title {
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .content-slider__subtitle {
+    margin: 0;
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  .content-slider__text {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .content-slider__text p {
+    margin: 0 0 var(--gap-sm) 0;
+  }
+
+  .content-slider__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Navigation arrows styling */
+  .content-slider__slideshow slideshow-arrows {
+    position: absolute;
+    bottom: var(--padding-xl);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--gap-sm);
+    z-index: 2;
+
+    @media screen and (min-width: 750px) {
+      bottom: var(--padding-2xl);
+    }
+  }
+
+  .section-content-slider--arrows-on-sides slideshow-arrows {
+    width: 100%;
+    justify-content: space-between;
+    padding-inline: var(--padding-xl);
+    bottom: 50%;
+    transform: translateX(-50%) translateY(50%);
+
+    @media screen and (min-width: 750px) {
+      padding-inline: var(--padding-2xl);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Content Slider",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "title_type_preset",
+      "label": "Title style",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_type_preset",
+      "label": "Subtitle style",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        }
+      ],
+      "default": "h4"
+    },
+    {
+      "type": "select",
+      "id": "text_type_preset",
+      "label": "Text style",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }
+      ],
+      "default": "paragraph"
+    },
+    {
+      "type": "header",
+      "content": "t:content.navigation"
+    },
+    {
+      "type": "select",
+      "id": "icons_style",
+      "label": "t:settings.icon",
+      "options": [
+        {
+          "value": "arrow",
+          "label": "t:options.arrows"
+        },
+        {
+          "value": "chevron",
+          "label": "t:options.chevrons"
+        },
+        {
+          "value": "arrows_large",
+          "label": "t:options.arrows_large"
+        },
+        {
+          "value": "chevron_large",
+          "label": "t:options.chevron_large"
+        },
+        {
+          "value": "none",
+          "label": "t:options.none"
+        }
+      ],
+      "default": "arrow"
+    },
+    {
+      "type": "select",
+      "id": "icons_shape",
+      "label": "t:settings.icon_background",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "circle",
+          "label": "t:options.circle"
+        },
+        {
+          "value": "square",
+          "label": "t:options.square"
+        }
+      ],
+      "default": "square",
+      "visible_if": "{{ section.settings.icons_style != 'none' }}"
+    },
+    {
+      "type": "select",
+      "id": "arrows_position",
+      "label": "Arrow position",
+      "options": [
+        {
+          "value": "bottom",
+          "label": "Bottom center"
+        },
+        {
+          "value": "sides",
+          "label": "Sides"
+        }
+      ],
+      "default": "bottom",
+      "visible_if": "{{ section.settings.icons_style != 'none' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Slide Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Subtitle text"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add your slide content here. You can include multiple paragraphs and format the text as needed.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content Slider",
+      "category": "t:categories.storytelling",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Lisa Perry",
+            "subtitle": "Summer 2018",
+            "text": "<p>Discover the latest collection featuring bold colors and sophisticated designs. This season brings together timeless elegance with modern sensibilities.</p><p>Each piece is carefully crafted to bring out your unique style and personality.</p>"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "New Collection",
+            "subtitle": "Fall 2018",
+            "text": "<p>Explore our newest arrivals that blend comfort with contemporary fashion. Curated designs that make a statement.</p>"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Featured Styles",
+            "subtitle": "Limited Edition",
+            "text": "<p>Exclusive pieces available for a limited time. Don't miss out on these unique additions to your wardrobe.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
