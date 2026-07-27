@@ -27,6 +27,7 @@
         "slide_MbDtPW": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/cfc49ad9-f7dc-49e1-8d97-4d24b07290e7.png",
             "image_alt": "",
             "heading": "Grace Defined",
             "subheading": "Timeless luxury, effortlessly worn",
@@ -35,9 +36,10 @@
             "text_color": "#ffffff"
           }
         },
-        "slide_4FJxXm": {
+        "slide_g6FHx9": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/c4279f4a-1ab9-4293-a174-8336246c9d68.png",
             "image_alt": "",
             "heading": "Grace Defined",
             "subheading": "Timeless luxury, effortlessly worn",
@@ -50,7 +52,7 @@
       "block_order": [
         "slide_9GmBTY",
         "slide_MbDtPW",
-        "slide_4FJxXm"
+        "slide_g6FHx9"
       ],
       "name": "Hero Carousel",
       "settings": {
