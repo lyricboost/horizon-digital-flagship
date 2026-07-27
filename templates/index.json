@@ -74,7 +74,7 @@
         "products_per_view": 4,
         "show_view_more": true,
         "view_more_text": "View more",
-        "view_more_link": "shopify://collections"
+        "view_more_link": "shopify://collections/frontpage"
       }
     }
   },
