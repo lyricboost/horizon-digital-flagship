@@ -1,0 +1,287 @@
+/* ================================================
+   Featured Collection Section
+   ================================================ */
+
+.featured-collection {
+  padding: 4rem 0;
+}
+
+@media screen and (min-width: 750px) {
+  .featured-collection {
+    padding: 5rem 0;
+  }
+}
+
+.featured-collection__container {
+  position: relative;
+}
+
+/* ================================================
+   Header
+   ================================================ */
+
+.featured-collection__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  gap: 2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .featured-collection__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+.featured-collection__heading {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.featured-collection__view-more {
+  flex-shrink: 0;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border: 1px solid currentColor;
+  border-radius: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.featured-collection__view-more:hover {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+/* ================================================
+   Carousel
+   ================================================ */
+
+.featured-collection__carousel {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 3rem;
+}
+
+.featured-collection__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3rem) / 4);
+  gap: 1.5rem;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+@media screen and (max-width: 989px) {
+  .featured-collection__track {
+    grid-auto-columns: calc((100% - 2rem) / 3);
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .featured-collection__track {
+    grid-auto-columns: calc((100% - 1rem) / 2);
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .featured-collection__track {
+    grid-auto-columns: 85%;
+    gap: 1rem;
+  }
+}
+
+/* ================================================
+   Product Cards
+   ================================================ */
+
+.featured-collection__card {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(var(--color-background));
+  transition: transform 0.2s ease;
+}
+
+.featured-collection__card:hover {
+  transform: translateY(-4px);
+}
+
+.featured-collection__card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.featured-collection__image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 133.33%; /* 3:4 aspect ratio */
+  overflow: hidden;
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+.featured-collection__image,
+.featured-collection__placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-collection__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================================
+   Product Info
+   ================================================ */
+
+.featured-collection__info {
+  padding: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.featured-collection__product-title {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0;
+  color: rgb(var(--color-foreground));
+}
+
+@media screen and (max-width: 749px) {
+  .featured-collection__product-title {
+    font-size: 0.875rem;
+  }
+}
+
+.featured-collection__price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.featured-collection__price--regular,
+.featured-collection__price--sale {
+  color: rgb(var(--color-foreground));
+}
+
+.featured-collection__price--compare {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(var(--color-foreground), 0.6);
+  text-decoration: line-through;
+}
+
+/* ================================================
+   Controls (Arrows & Pagination)
+   ================================================ */
+
+.featured-collection__controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.featured-collection__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(var(--color-foreground), 0.2);
+  border-radius: 50%;
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.featured-collection__arrow:hover:not(:disabled) {
+  border-color: rgb(var(--color-foreground));
+  background-color: rgba(var(--color-foreground), 0.05);
+}
+
+.featured-collection__arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.featured-collection__arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.featured-collection__pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: rgb(var(--color-foreground));
+  user-select: none;
+}
+
+.featured-collection__pagination-current {
+  font-weight: 600;
+}
+
+.featured-collection__pagination-separator {
+  opacity: 0.6;
+}
+
+.featured-collection__pagination-total {
+  opacity: 0.6;
+}
+
+/* ================================================
+   Empty State
+   ================================================ */
+
+.featured-collection__empty {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+/* ================================================
+   Reduced Motion Support
+   ================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-collection__track {
+    transition: none;
+  }
+  
+  .featured-collection__card {
+    transition: none;
+  }
+  
+  .featured-collection__arrow {
+    transition: none;
+  }
+}
