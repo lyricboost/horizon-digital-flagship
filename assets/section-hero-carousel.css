@@ -6,6 +6,8 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  height: var(--hero-height-mobile, 70vh);
+  min-height: 400px;
 }
 
 hero-carousel-component,
@@ -13,13 +15,11 @@ hero-carousel-component,
   display: block;
   position: relative;
   width: 100%;
-  height: var(--hero-height-mobile, 70vh);
-  min-height: 400px;
+  height: 100%;
 }
 
 @media screen and (min-width: 750px) {
-  hero-carousel-component,
-  .hero-carousel__slideshow {
+  .hero-carousel {
     height: var(--hero-height-desktop, 600px);
     min-height: 500px;
   }
