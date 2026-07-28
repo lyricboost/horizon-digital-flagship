@@ -6,8 +6,8 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  height: var(--hero-height-mobile, 70vh);
-  min-height: 400px;
+  height: var(--hero-height-mobile, 50vh);
+  min-height: 30vh;
 }
 
 hero-carousel-component,
