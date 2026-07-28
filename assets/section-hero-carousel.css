@@ -20,8 +20,8 @@ hero-carousel-component,
 
 @media screen and (min-width: 750px) {
   .hero-carousel {
-    height: var(--hero-height-desktop, 600px);
-    min-height: 500px;
+    height: var(--hero-height-desktop, 30vh);
+    min-height: 30vh;
   }
 }
 
