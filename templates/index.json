@@ -17,10 +17,10 @@
           "settings": {
             "image": "shopify://shop_images/0e121086-ec68-4b16-898a-b432d5f88df5.png",
             "image_alt": "",
-            "heading": "Grace Defined",
-            "subheading": "Timeless luxury, effortlessly worn",
-            "button_label": "Shop Now",
-            "button_link": "",
+            "heading": "L’élégance en toute circonstance",
+            "subheading": "Des costumes distingués pour les hommes qui avancent avec assurance.",
+            "button_label": "Découvrir la collection",
+            "button_link": "shopify://collections/suits",
             "text_color": "#ffffff"
           }
         },
