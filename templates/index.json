@@ -20,7 +20,7 @@
             "heading": "L’élégance en toute circonstance",
             "subheading": "Des costumes distingués pour les hommes qui avancent avec assurance.",
             "button_label": "Découvrir la collection",
-            "button_link": "",
+            "button_link": "shopify://collections/suits",
             "text_color": "#ffffff"
           }
         },
@@ -31,8 +31,8 @@
             "image_alt": "",
             "heading": "Une allure qui vous distingue",
             "subheading": "Des pièces raffinées, pensées pour conjuguer style et confiance.",
-            "button_label": "",
-            "button_link": "",
+            "button_label": "Voir les costumes",
+            "button_link": "shopify://collections/suits",
             "text_color": "#ffffff"
           }
         },
@@ -43,8 +43,8 @@
             "image_alt": "",
             "heading": "Le style, sans compromis",
             "subheading": "Une élégance intemporelle pour le travail, les cérémonies et les grandes occasions.",
-            "button_label": "Shop Now",
-            "button_link": "",
+            "button_label": "Trouver votre style",
+            "button_link": "shopify://collections/suits",
             "text_color": "#ffffff"
           }
         }
@@ -61,7 +61,8 @@
         "autoplay": true,
         "autoplay_speed": 4,
         "text_position": "bottom-left",
-        "overlay_opacity": 15
+        "overlay_opacity": 15,
+        "mobile_image_position": "center"
       }
     },
     "featured_collection_fqtTkn": {
