@@ -11,6 +11,7 @@
   assign overlay_opacity = section.settings.overlay_opacity | default: 15
   assign height_desktop = section.settings.height_desktop | default: 600
   assign height_mobile = section.settings.height_mobile | default: 70
+  assign mobile_image_position = section.settings.mobile_image_position | default: 'center'
 -%}
 
 <div
@@ -55,29 +56,30 @@
             ref="slide"
             slide-id="{{ block.id }}"
             {{ block.shopify_attributes }}
+            {%- if image != blank -%}
+              {%- liquid
+                assign mobile_img = image_mobile | default: image
+                assign mobile_url = mobile_img | image_url: width: 1200
+                assign desktop_url = image | image_url: width: 2000
+              -%}
+              style="--mobile-bg-image: url('{{ mobile_url }}'); --desktop-bg-image: url('{{ desktop_url }}'); --mobile-bg-position: {{ mobile_image_position }};"
+            {%- endif -%}
           >
             <div class="hero-carousel__media">
               {%- if image != blank -%}
-                <picture>
-                  {%- if image_mobile != blank -%}
-                    <source
-                      media="(max-width: 749px)"
-                      srcset="{{ image_mobile | image_url: width: 800 }} 800w, {{ image_mobile | image_url: width: 1200 }} 1200w"
-                      width="{{ image_mobile.width }}"
-                      height="{{ image_mobile.height }}"
-                    >
-                  {%- endif -%}
-                  <img
-                    src="{{ image | image_url: width: 1600 }}"
-                    srcset="{{ image | image_url: width: 1000 }} 1000w, {{ image | image_url: width: 1600 }} 1600w, {{ image | image_url: width: 2000 }} 2000w"
-                    alt="{{ image_alt | escape }}"
-                    width="{{ image.width }}"
-                    height="{{ image.height }}"
-                    loading="{{ loading }}"
-                    fetchpriority="{{ fetchpriority }}"
-                    class="hero-carousel__image"
-                  >
-                </picture>
+                {%- comment -%} Desktop: Use img tag for better SEO/accessibility {%- endcomment -%}
+                <img
+                  src="{{ image | image_url: width: 1600 }}"
+                  srcset="{{ image | image_url: width: 1000 }} 1000w, {{ image | image_url: width: 1600 }} 1600w, {{ image | image_url: width: 2000 }} 2000w"
+                  alt="{{ image_alt | escape }}"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                  loading="{{ loading }}"
+                  fetchpriority="{{ fetchpriority }}"
+                  class="hero-carousel__image hero-carousel__image--desktop"
+                >
+                {%- comment -%} Mobile: Background image div for better fill {%- endcomment -%}
+                <div class="hero-carousel__image hero-carousel__image--mobile" role="img" aria-label="{{ image_alt | escape }}"></div>
               {%- else -%}
                 {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-carousel__placeholder' }}
               {%- endif -%}
@@ -230,6 +232,35 @@
       "step": 5,
       "unit": "%",
       "default": 15
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_position",
+      "label": "Mobile image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "info": "Controls how the image is positioned on mobile devices"
     }
   ],
   "blocks": [

@@ -71,16 +71,44 @@ hero-carousel-component,
   overflow: hidden;
 }
 
-.hero-carousel__image,
+/* Desktop: Use img tag */
+.hero-carousel__image--desktop {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .hero-carousel__image--desktop {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Mobile: Use background image for better fill control */
+.hero-carousel__image--mobile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: var(--mobile-bg-image);
+  background-size: cover;
+  background-position: var(--mobile-bg-position, center);
+  background-repeat: no-repeat;
+}
+
+@media screen and (min-width: 750px) {
+  .hero-carousel__image--mobile {
+    display: none;
+  }
+}
+
 .hero-carousel__placeholder {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
-}
-
-.hero-carousel__placeholder {
   background-color: rgba(var(--color-foreground), 0.04);
 }
 
@@ -390,18 +418,18 @@ hero-carousel-component,
    Loading States & Performance
    ================================================ */
 
-.hero-carousel__image {
+.hero-carousel__image--desktop {
   /* Prevent layout shift during image load */
   background-color: rgba(var(--color-foreground), 0.04);
 }
 
 /* Smooth image appearance when loaded */
-.hero-carousel__image[loading="lazy"] {
+.hero-carousel__image--desktop[loading="lazy"] {
   opacity: 0;
   animation: fadeIn 0.4s ease-in forwards;
 }
 
-.hero-carousel__image[loading="eager"] {
+.hero-carousel__image--desktop[loading="eager"] {
   /* First slide loads immediately */
   animation: none;
 }
