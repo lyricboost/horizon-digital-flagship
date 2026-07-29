@@ -134,17 +134,20 @@ hero-carousel-component,
   display: flex;
   z-index: 2;
   padding: 2rem;
+  padding-bottom: 5rem; /* Space for controls on mobile */
 }
 
 @media screen and (min-width: 750px) {
   .hero-carousel__content-wrapper {
     padding: 3rem 4rem;
+    padding-bottom: 6rem; /* Space for controls on desktop */
   }
 }
 
 @media screen and (min-width: 990px) {
   .hero-carousel__content-wrapper {
     padding: 4rem 5rem;
+    padding-bottom: 6rem;
   }
 }
 
@@ -266,7 +269,7 @@ hero-carousel-component,
 
 .hero-carousel__controls {
   position: absolute;
-  bottom: 2rem;
+  bottom: 1.5rem;
   left: 2rem;
   right: 2rem;
   display: flex;
@@ -274,11 +277,12 @@ hero-carousel-component,
   align-items: center;
   z-index: 3;
   pointer-events: none;
+  gap: 1rem;
 }
 
 @media screen and (min-width: 750px) {
   .hero-carousel__controls {
-    bottom: 3rem;
+    bottom: 2rem;
     left: 4rem;
     right: 4rem;
   }
