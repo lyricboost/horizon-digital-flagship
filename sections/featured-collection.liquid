@@ -119,6 +119,7 @@
   // Simple carousel navigation
   document.addEventListener('DOMContentLoaded', function() {
     const carousels = document.querySelectorAll('.featured-collection__carousel');
+    const isMobile = window.innerWidth < 990;
     
     carousels.forEach(carousel => {
       const track = carousel.querySelector('.featured-collection__track');
@@ -128,6 +129,16 @@
       
       if (!track || !prevButton || !nextButton) return;
       
+      // On mobile, hide controls and let native scroll work
+      if (isMobile) {
+        const controls = carousel.querySelector('.featured-collection__controls');
+        if (controls) {
+          controls.style.display = 'none';
+        }
+        return; // Exit - native scroll handles everything on mobile
+      }
+      
+      // Desktop: Use JavaScript pagination
       const productsPerView = parseInt(track.dataset.productsPerView) || 4;
       const cards = track.querySelectorAll('.featured-collection__card');
       const totalPages = Math.ceil(cards.length / productsPerView);

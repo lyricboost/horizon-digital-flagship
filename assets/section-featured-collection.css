@@ -81,10 +81,40 @@
 
 .featured-collection__carousel {
   position: relative;
-  overflow: hidden;
   padding-bottom: 3rem;
   flex: 1;
   min-width: 0;
+}
+
+/* Desktop: Use transform for pagination */
+@media screen and (min-width: 990px) {
+  .featured-collection__carousel {
+    overflow: hidden;
+  }
+  
+  .featured-collection__track {
+    transition: transform 0.4s ease;
+    will-change: transform;
+  }
+}
+
+/* Mobile: Native scroll for thumb swiping */
+@media screen and (max-width: 989px) {
+  .featured-collection__carousel {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .featured-collection__carousel::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .featured-collection__track {
+    transition: none;
+  }
 }
 
 .featured-collection__track {
@@ -92,8 +122,6 @@
   grid-auto-flow: column;
   grid-auto-columns: calc((100% - 3rem) / 4);
   gap: 1.5rem;
-  transition: transform 0.4s ease;
-  will-change: transform;
 }
 
 @media screen and (max-width: 989px) {
@@ -126,6 +154,14 @@
   flex-direction: column;
   background-color: rgb(var(--color-background));
   transition: transform 0.2s ease;
+}
+
+/* Mobile: Add scroll-snap alignment */
+@media screen and (max-width: 989px) {
+  .featured-collection__card {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
 }
 
 .featured-collection__card:hover {
