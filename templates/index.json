@@ -20,7 +20,7 @@
             "heading": "L’élégance en toute circonstance",
             "subheading": "Des costumes distingués pour les hommes qui avancent avec assurance.",
             "button_label": "Découvrir la collection",
-            "button_link": "shopify://collections/suits",
+            "button_link": "",
             "text_color": "#ffffff"
           }
         },
@@ -29,9 +29,9 @@
           "settings": {
             "image": "shopify://shop_images/cfc49ad9-f7dc-49e1-8d97-4d24b07290e7.png",
             "image_alt": "",
-            "heading": "Grace Defined",
-            "subheading": "Timeless luxury, effortlessly worn",
-            "button_label": "Shop Now",
+            "heading": "Une allure qui vous distingue",
+            "subheading": "Des pièces raffinées, pensées pour conjuguer style et confiance.",
+            "button_label": "",
             "button_link": "",
             "text_color": "#ffffff"
           }
@@ -41,8 +41,8 @@
           "settings": {
             "image": "shopify://shop_images/c4279f4a-1ab9-4293-a174-8336246c9d68.png",
             "image_alt": "",
-            "heading": "Grace Defined",
-            "subheading": "Timeless luxury, effortlessly worn",
+            "heading": "Le style, sans compromis",
+            "subheading": "Une élégance intemporelle pour le travail, les cérémonies et les grandes occasions.",
             "button_label": "Shop Now",
             "button_link": "",
             "text_color": "#ffffff"
