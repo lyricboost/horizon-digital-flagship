@@ -236,23 +236,26 @@ hero-carousel-component,
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  background-color: var(--text-color, #ffffff);
-  color: rgb(var(--color-background));
-  border: none;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   border-radius: 0;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
   min-width: 160px;
   text-align: center;
 }
 
 .hero-carousel__button:hover {
-  opacity: 0.9;
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .hero-carousel__button:active {
   transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 @media screen and (min-width: 750px) {
