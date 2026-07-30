@@ -126,7 +126,8 @@
 /* Mobile: Simple card sizing */
 @media screen and (max-width: 749px) {
   .featured-collection__track {
-    grid-auto-columns: 75%;
+    grid-auto-columns: 70%;
+    padding: 0 2rem;
   }
 }
 
@@ -154,6 +155,8 @@
   flex-direction: column;
   background-color: rgb(var(--color-background));
   transition: transform 0.2s ease;
+  width: 100%; /* Force full grid column width */
+  min-width: 0; /* Allow shrinking */
 }
 
 /* Mobile: Add scroll-snap alignment */
