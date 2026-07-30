@@ -92,7 +92,7 @@
             <div class="featured-collection__pagination">
               <span class="featured-collection__pagination-current">1</span>
               <span class="featured-collection__pagination-separator">/</span>
-              <span class="featured-collection__pagination-total">{{ collection.products.size | divided_by: products_per_view | ceil }}</span>
+              <span class="featured-collection__pagination-total">{{ products_to_show | divided_by: products_per_view | ceil }}</span>
             </div>
             
             <button
@@ -143,6 +143,11 @@
       const cards = track.querySelectorAll('.featured-collection__card');
       const totalPages = Math.ceil(cards.length / productsPerView);
       let currentPage = 0;
+      
+      const paginationTotal = carousel.querySelector('.featured-collection__pagination-total');
+      if (paginationTotal) {
+        paginationTotal.textContent = totalPages;
+      }
       
       function updateCarousel() {
         const scrollAmount = currentPage * track.offsetWidth;
