@@ -179,14 +179,15 @@
 .featured-collection__image-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 100%; /* 1:1 aspect ratio for mobile */
+  padding-bottom: 133.33%; /* 3:4 aspect ratio */
   overflow: hidden;
   background-color: rgba(var(--color-foreground), 0.04);
+  max-height: 280px; /* Cap height on mobile */
 }
 
 @media screen and (min-width: 750px) {
   .featured-collection__image-wrapper {
-    padding-bottom: 133.33%; /* 3:4 aspect ratio for desktop */
+    max-height: none; /* Remove cap on desktop */
   }
 }
 
