@@ -126,7 +126,7 @@
 /* Mobile: Simple card sizing */
 @media screen and (max-width: 749px) {
   .featured-collection__track {
-    grid-auto-columns: 70%;
+    grid-auto-columns: 45%;
     padding: 0 2rem;
   }
 }
