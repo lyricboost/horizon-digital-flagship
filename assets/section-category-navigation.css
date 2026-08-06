@@ -45,7 +45,7 @@
 .category-navigation__tabs {
   display: flex;
   gap: 0;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 3rem;
   border-bottom: 1px solid rgba(var(--color-foreground), 0.15);
   overflow-x: auto;
@@ -99,6 +99,8 @@
 
 .category-navigation__tab--active {
   color: rgb(var(--color-foreground));
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .category-navigation__tab--active::after {
