@@ -1,0 +1,89 @@
+{%- comment -%}
+  Renders product color swatches below product cards
+  
+  @param {object} product - The product object
+  @param {number} max_swatches - Maximum number of swatches to show (default: 4)
+{%- endcomment -%}
+
+{%- liquid
+  assign max_swatches = max_swatches | default: 4
+  assign color_option = null
+  
+  for option in product.options_with_values
+    assign option_name_downcase = option.name | downcase
+    if option_name_downcase contains 'color' or option_name_downcase contains 'colour'
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if color_option and color_option.values.size > 0 -%}
+  <div class="product-card-swatches">
+    {%- for value in color_option.values limit: max_swatches -%}
+      {%- liquid
+        assign value_handle = value | handle
+        assign variant_for_value = null
+        
+        for variant in product.variants
+          if variant.available
+            for variant_option in variant.options
+              assign variant_option_handle = variant_option | handle
+              if variant_option_handle == value_handle
+                assign variant_for_value = variant
+                break
+              endif
+            endfor
+          endif
+          if variant_for_value
+            break
+          endif
+        endfor
+      -%}
+      
+      <a 
+        href="{{ variant_for_value.url | default: product.url }}"
+        class="product-card-swatch{% if forloop.first %} product-card-swatch--active{% endif %}"
+        title="{{ value }}"
+        {% unless variant_for_value.available %}
+          data-unavailable="true"
+        {% endunless %}
+      >
+        {%- liquid
+          assign swatch_image = null
+          assign color_value = value | handle
+          
+          for media in product.media
+            if media.alt contains value or media.alt contains color_value
+              assign swatch_image = media.preview_image
+              break
+            endif
+          endfor
+        -%}
+        
+        {%- if swatch_image -%}
+          <img 
+            src="{{ swatch_image | image_url: width: 50 }}" 
+            alt="{{ value }}"
+            width="24"
+            height="24"
+            loading="lazy"
+            class="product-card-swatch__image"
+          >
+        {%- else -%}
+          <span 
+            class="product-card-swatch__color" 
+            style="background-color: {{ value | handle | remove: '-' }};"
+            aria-label="{{ value }}"
+          ></span>
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+    
+    {%- if color_option.values.size > max_swatches -%}
+      <span class="product-card-swatches__more">
+        +{{ color_option.values.size | minus: max_swatches }}
+      </span>
+    {%- endif -%}
+  </div>
+{%- endif -%}

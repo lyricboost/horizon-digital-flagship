@@ -146,8 +146,12 @@ hero-carousel-component,
 
 @media screen and (min-width: 990px) {
   .hero-carousel__content-wrapper {
-    padding: 4rem 5rem;
+    padding: 4rem;
     padding-bottom: 6rem;
+    max-width: var(--page-width, 1200px);
+    margin: 0 auto;
+    left: 0;
+    right: 0;
   }
 }
 
@@ -288,6 +292,16 @@ hero-carousel-component,
     bottom: 2rem;
     left: 4rem;
     right: 4rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .hero-carousel__controls {
+    max-width: var(--page-width, 1200px);
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    padding: 0 4rem;
   }
 }
 

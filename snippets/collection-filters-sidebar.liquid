@@ -1,0 +1,164 @@
+{%- comment -%}
+  Renders a collapsible filter sidebar for collections
+  
+  @param {object} results - Collection or search results
+  @param {array} filters - Available filters
+  @param {string} results_url - Base URL for filter form
+{%- endcomment -%}
+
+<div class="collection-filters-sidebar">
+  <div class="collection-filters-sidebar__header">
+    <div class="collection-filters-sidebar__active-filters">
+      {%- liquid
+        assign has_active_filters = false
+        for filter in filters
+          if filter.active_values.size > 0
+            assign has_active_filters = true
+            break
+          endif
+        endfor
+      -%}
+      
+      {%- if has_active_filters -%}
+        <div class="collection-filters-sidebar__chips">
+          {%- for filter in filters -%}
+            {%- for value in filter.active_values -%}
+              <div class="filter-chip">
+                <button 
+                  type="button" 
+                  class="filter-chip__remove"
+                  data-filter-remove="{{ value.url_to_remove }}"
+                  aria-label="Remove {{ filter.label }}: {{ value.label }}"
+                >
+                  <span class="filter-chip__label">{{ value.label }}</span>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+        
+        <button 
+          type="button" 
+          class="collection-filters-sidebar__clear-all"
+          data-filter-clear-all="{{ results_url }}"
+        >
+          Clear all
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+  
+  <form class="collection-filters-sidebar__form" action="{{ results_url }}" method="get">
+    {%- for filter in filters -%}
+      <details class="filter-group" open>
+        <summary class="filter-group__summary">
+          <span class="filter-group__title">{{ filter.label }}</span>
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true" focusable="false" class="filter-group__icon">
+            <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        
+        <div class="filter-group__content">
+          {%- case filter.type -%}
+            {%- when 'price_range' -%}
+              <div class="filter-price-range">
+                <div class="filter-price-range__info">
+                  The highest price is {{ filter.range_max | money }}
+                </div>
+                
+                <div class="filter-price-range__inputs">
+                  <div class="filter-price-range__input-group">
+                    <label for="Filter-{{ filter.param_name }}-Min" class="filter-price-range__label">
+                      $
+                    </label>
+                    <input
+                      type="number"
+                      id="Filter-{{ filter.param_name }}-Min"
+                      name="{{ filter.min_value.param_name }}"
+                      placeholder="From"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency }}"
+                      value="{{ filter.min_value.value | money_without_currency }}"
+                      class="filter-price-range__input"
+                    >
+                  </div>
+                  
+                  <div class="filter-price-range__input-group">
+                    <label for="Filter-{{ filter.param_name }}-Max" class="filter-price-range__label">
+                      $
+                    </label>
+                    <input
+                      type="number"
+                      id="Filter-{{ filter.param_name }}-Max"
+                      name="{{ filter.max_value.param_name }}"
+                      placeholder="To"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency }}"
+                      value="{{ filter.max_value.value | money_without_currency }}"
+                      class="filter-price-range__input"
+                    >
+                  </div>
+                </div>
+              </div>
+              
+            {%- when 'list' -%}
+              <ul class="filter-list">
+                {%- for value in filter.values -%}
+                  <li class="filter-list__item">
+                    <label class="filter-list__label">
+                      <input
+                        type="checkbox"
+                        name="{{ value.param_name }}"
+                        value="{{ value.value }}"
+                        {% if value.active %}checked{% endif %}
+                        class="filter-list__checkbox"
+                      >
+                      <span class="filter-list__text">
+                        {{ value.label }}
+                        <span class="filter-list__count">({{ value.count }})</span>
+                      </span>
+                    </label>
+                  </li>
+                {%- endfor -%}
+              </ul>
+          {%- endcase -%}
+        </div>
+      </details>
+    {%- endfor -%}
+  </form>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.collection-filters-sidebar');
+    if (!sidebar) return;
+    
+    const form = sidebar.querySelector('.collection-filters-sidebar__form');
+    const removeButtons = sidebar.querySelectorAll('[data-filter-remove]');
+    const clearAllButton = sidebar.querySelector('[data-filter-clear-all]');
+    
+    // Auto-submit form on filter change
+    if (form) {
+      form.addEventListener('change', function() {
+        this.submit();
+      });
+    }
+    
+    // Handle remove chip clicks
+    removeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        window.location.href = this.dataset.filterRemove;
+      });
+    });
+    
+    // Handle clear all
+    if (clearAllButton) {
+      clearAllButton.addEventListener('click', function() {
+        window.location.href = this.dataset.filterClearAll;
+      });
+    }
+  });
+</script>

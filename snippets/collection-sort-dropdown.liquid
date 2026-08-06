@@ -1,0 +1,47 @@
+{%- comment -%}
+  Renders a sorting dropdown for collection pages
+  
+  @param {object} results - Collection or search results  
+  @param {string} sort_by - Currently active sort option
+{%- endcomment -%}
+
+<div class="collection-sort-dropdown">
+  <label for="SortBy" class="collection-sort-dropdown__label visually-hidden">
+    Sort by
+  </label>
+  
+  <div class="collection-sort-dropdown__wrapper">
+    <select 
+      id="SortBy" 
+      name="sort_by" 
+      class="collection-sort-dropdown__select"
+      aria-label="Sort products"
+    >
+      {%- for option in results.sort_options -%}
+        <option 
+          value="{{ option.value }}"
+          {% if option.value == sort_by %}selected{% endif %}
+        >
+          {{ option.name }}
+        </option>
+      {%- endfor -%}
+    </select>
+    
+    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true" focusable="false" class="collection-sort-dropdown__icon">
+      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sortSelect = document.getElementById('SortBy');
+    if (!sortSelect) return;
+    
+    sortSelect.addEventListener('change', function() {
+      const url = new URL(window.location.href);
+      url.searchParams.set('sort_by', this.value);
+      window.location.href = url.toString();
+    });
+  });
+</script>
