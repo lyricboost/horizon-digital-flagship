@@ -78,6 +78,65 @@
         "view_more_link": "shopify://collections/frontpage"
       }
     },
+    "category_navigation_XYZ123": {
+      "type": "category-navigation",
+      "name": "Category Navigation",
+      "blocks": {
+        "category_suits": {
+          "type": "category",
+          "settings": {
+            "tab_label": "SUITS",
+            "collection": "",
+            "show_quick_add": true
+          }
+        },
+        "category_jackets": {
+          "type": "category",
+          "settings": {
+            "tab_label": "JACKET & BLAZERS",
+            "collection": "",
+            "show_quick_add": true
+          }
+        },
+        "category_pants": {
+          "type": "category",
+          "settings": {
+            "tab_label": "PANTS",
+            "collection": "",
+            "show_quick_add": true
+          }
+        },
+        "category_tuxedos": {
+          "type": "category",
+          "settings": {
+            "tab_label": "TUXEDOS",
+            "collection": "",
+            "show_quick_add": true
+          }
+        },
+        "category_short_suits": {
+          "type": "category",
+          "settings": {
+            "tab_label": "SHORT SUITS",
+            "collection": "",
+            "show_quick_add": true
+          }
+        }
+      },
+      "block_order": [
+        "category_suits",
+        "category_jackets",
+        "category_pants",
+        "category_tuxedos",
+        "category_short_suits"
+      ],
+      "settings": {
+        "heading": "",
+        "products_to_show": 4,
+        "show_view_more": true,
+        "view_more_text": "View more"
+      }
+    },
     "collection_list_bUYUGT": {
       "type": "collection-list",
       "blocks": {
@@ -246,6 +305,7 @@
   "order": [
     "hero_carousel_AEUUDC",
     "featured_collection_fqtTkn",
+    "category_navigation_XYZ123",
     "collection_list_bUYUGT"
   ]
 }

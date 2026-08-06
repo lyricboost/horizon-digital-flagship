@@ -1,0 +1,397 @@
+/* ================================================
+   Category Navigation Section
+   ================================================ */
+
+.category-navigation {
+  padding: 4rem 0;
+  background-color: rgb(var(--color-background));
+}
+
+@media screen and (min-width: 750px) {
+  .category-navigation {
+    padding: 5rem 0;
+  }
+}
+
+.category-navigation__container {
+  max-width: var(--page-width, 1200px);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter, 2rem);
+}
+
+/* ================================================
+   Heading
+   ================================================ */
+
+.category-navigation__heading {
+  margin: 0 0 2rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-align: center;
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__heading {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* ================================================
+   Tabs Navigation
+   ================================================ */
+
+.category-navigation__tabs {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.15);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.category-navigation__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__tabs {
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+  }
+}
+
+.category-navigation__tab {
+  position: relative;
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.6);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.category-navigation__tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: rgb(var(--color-foreground));
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+
+.category-navigation__tab:hover {
+  color: rgb(var(--color-foreground));
+}
+
+.category-navigation__tab--active {
+  color: rgb(var(--color-foreground));
+}
+
+.category-navigation__tab--active::after {
+  transform: scaleX(1);
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__tab {
+    padding: 0.875rem 1rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ================================================
+   Panels
+   ================================================ */
+
+.category-navigation__panels {
+  position: relative;
+}
+
+.category-navigation__panel {
+  display: none;
+}
+
+.category-navigation__panel--active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================================
+   Products Grid
+   ================================================ */
+
+.category-navigation__products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .category-navigation__products {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__products {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .category-navigation__products {
+    gap: 1.25rem 0.75rem;
+  }
+}
+
+/* ================================================
+   Product Card
+   ================================================ */
+
+.category-navigation__product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.category-navigation__product-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+}
+
+/* ================================================
+   Image
+   ================================================ */
+
+.category-navigation__image-wrapper {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: rgba(var(--color-foreground), 0.04);
+  border-radius: 2px;
+}
+
+.category-navigation__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.category-navigation__image--hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.category-navigation__product-card:hover .category-navigation__image--hover {
+  opacity: 1;
+}
+
+.category-navigation__product-card:hover .category-navigation__image:not(.category-navigation__image--hover) {
+  transform: scale(1.05);
+}
+
+.category-navigation__placeholder {
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+}
+
+/* ================================================
+   Quick Add Button
+   ================================================ */
+
+.category-navigation__quick-add {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(var(--color-background));
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  z-index: 2;
+}
+
+.category-navigation__product-card:hover .category-navigation__quick-add {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.category-navigation__quick-add:hover {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================================
+   Product Info
+   ================================================ */
+
+.category-navigation__product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.category-navigation__product-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgb(var(--color-foreground));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__product-title {
+    font-size: 0.875rem;
+  }
+}
+
+/* ================================================
+   Price
+   ================================================ */
+
+.category-navigation__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.category-navigation__price--regular {
+  color: rgb(var(--color-foreground));
+}
+
+.category-navigation__price--sale {
+  color: rgb(var(--color-sale, 220, 53, 69));
+}
+
+.category-navigation__price--compare {
+  color: rgba(var(--color-foreground), 0.5);
+  text-decoration: line-through;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__price {
+    font-size: 0.875rem;
+  }
+  
+  .category-navigation__price--compare {
+    font-size: 0.8125rem;
+  }
+}
+
+/* ================================================
+   View More
+   ================================================ */
+
+.category-navigation__view-more-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.category-navigation__view-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+  border: 1px solid rgba(var(--color-foreground), 0.2);
+  border-radius: 2px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.category-navigation__view-more:hover {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  border-color: rgb(var(--color-foreground));
+}
+
+.category-navigation__view-more svg {
+  transition: transform 0.2s ease;
+}
+
+.category-navigation__view-more:hover svg {
+  transform: translateX(3px);
+}
+
+@media screen and (max-width: 749px) {
+  .category-navigation__view-more {
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+  }
+}
+
+/* ================================================
+   Empty State
+   ================================================ */
+
+.category-navigation__empty {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.6);
+  font-size: 0.9375rem;
+}
+
+.category-navigation__empty p {
+  margin: 0;
+}

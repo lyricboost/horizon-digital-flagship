@@ -1,0 +1,294 @@
+{{ 'section-category-navigation.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign default_collection = section.settings.default_collection
+  assign show_view_more = section.settings.show_view_more
+  assign view_more_text = section.settings.view_more_text
+  assign products_to_show = section.settings.products_to_show
+-%}
+
+<div class="category-navigation section-{{ section.id }}">
+  <div class="category-navigation__container page-width">
+    {%- if heading != blank -%}
+      <h2 class="category-navigation__heading h2">{{ heading }}</h2>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <nav class="category-navigation__tabs" role="tablist">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign is_first = forloop.first
+            assign tab_collection = block.settings.collection
+            if tab_collection == blank
+              assign tab_collection = collections.all
+            endif
+          -%}
+          
+          <button
+            class="category-navigation__tab{% if is_first %} category-navigation__tab--active{% endif %}"
+            role="tab"
+            aria-selected="{% if is_first %}true{% else %}false{% endif %}"
+            aria-controls="category-panel-{{ block.id }}"
+            id="category-tab-{{ block.id }}"
+            data-collection-handle="{{ tab_collection.handle }}"
+            data-block-id="{{ block.id }}"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.tab_label | default: tab_collection.title }}
+          </button>
+        {%- endfor -%}
+      </nav>
+      
+      <div class="category-navigation__panels">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign is_first = forloop.first
+            assign panel_collection = block.settings.collection
+            if panel_collection == blank
+              assign panel_collection = collections.all
+            endif
+          -%}
+          
+          <div
+            class="category-navigation__panel{% if is_first %} category-navigation__panel--active{% endif %}"
+            role="tabpanel"
+            id="category-panel-{{ block.id }}"
+            aria-labelledby="category-tab-{{ block.id }}"
+            {% unless is_first %}hidden{% endunless %}
+          >
+            {%- if panel_collection.products.size > 0 -%}
+              <div class="category-navigation__products">
+                {%- for product in panel_collection.products limit: products_to_show -%}
+                  <div class="category-navigation__product-card">
+                    <a href="{{ product.url }}" class="category-navigation__product-link">
+                      <div class="category-navigation__image-wrapper">
+                        {%- if product.featured_image -%}
+                          <img
+                            src="{{ product.featured_image | image_url: width: 400 }}"
+                            srcset="{{ product.featured_image | image_url: width: 300 }} 300w,
+                                    {{ product.featured_image | image_url: width: 400 }} 400w,
+                                    {{ product.featured_image | image_url: width: 600 }} 600w"
+                            alt="{{ product.featured_image.alt | escape }}"
+                            width="{{ product.featured_image.width }}"
+                            height="{{ product.featured_image.height }}"
+                            loading="lazy"
+                            class="category-navigation__image"
+                          >
+                          
+                          {%- if product.images[1] -%}
+                            <img
+                              src="{{ product.images[1] | image_url: width: 400 }}"
+                              srcset="{{ product.images[1] | image_url: width: 300 }} 300w,
+                                      {{ product.images[1] | image_url: width: 400 }} 400w,
+                                      {{ product.images[1] | image_url: width: 600 }} 600w"
+                              alt="{{ product.images[1].alt | escape }}"
+                              width="{{ product.images[1].width }}"
+                              height="{{ product.images[1].height }}"
+                              loading="lazy"
+                              class="category-navigation__image category-navigation__image--hover"
+                            >
+                          {%- endif -%}
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag: 'category-navigation__placeholder' }}
+                        {%- endif -%}
+                        
+                        {%- if block.settings.show_quick_add -%}
+                          <button
+                            type="button"
+                            class="category-navigation__quick-add"
+                            aria-label="Quick add {{ product.title | escape }}"
+                          >
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                              <path d="M10 5V15M5 10H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </button>
+                        {%- endif -%}
+                      </div>
+                      
+                      <div class="category-navigation__product-info">
+                        <h3 class="category-navigation__product-title">
+                          {{ product.title }}
+                        </h3>
+                        
+                        <div class="category-navigation__price">
+                          {%- if product.compare_at_price > product.price -%}
+                            <span class="category-navigation__price--sale">
+                              {{ product.price | money }}
+                            </span>
+                            <span class="category-navigation__price--compare">
+                              {{ product.compare_at_price | money }}
+                            </span>
+                          {%- else -%}
+                            <span class="category-navigation__price--regular">
+                              {{ product.price | money }}
+                            </span>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {%- endfor -%}
+              </div>
+              
+              {%- if show_view_more and panel_collection.url -%}
+                <div class="category-navigation__view-more-wrapper">
+                  <a href="{{ panel_collection.url }}" class="category-navigation__view-more">
+                    {{ view_more_text | default: 'View more' }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                      <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+              {%- endif -%}
+            {%- else -%}
+              <div class="category-navigation__empty">
+                <p>No products found in this collection.</p>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="category-navigation__empty">
+        <p>Add category blocks to display products.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const categoryNavigation = document.querySelector('.category-navigation');
+    if (!categoryNavigation) return;
+    
+    const tabs = categoryNavigation.querySelectorAll('.category-navigation__tab');
+    const panels = categoryNavigation.querySelectorAll('.category-navigation__panel');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const targetPanelId = this.getAttribute('aria-controls');
+        
+        // Update tabs
+        tabs.forEach(t => {
+          t.classList.remove('category-navigation__tab--active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        
+        this.classList.add('category-navigation__tab--active');
+        this.setAttribute('aria-selected', 'true');
+        
+        // Update panels
+        panels.forEach(panel => {
+          panel.classList.remove('category-navigation__panel--active');
+          panel.setAttribute('hidden', '');
+        });
+        
+        const targetPanel = document.getElementById(targetPanelId);
+        if (targetPanel) {
+          targetPanel.classList.add('category-navigation__panel--active');
+          targetPanel.removeAttribute('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Category Navigation",
+  "tag": "section",
+  "class": "section-category-navigation",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_more",
+      "label": "Show 'View more' button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_more_text",
+      "label": "View more button text",
+      "default": "View more"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab Label",
+          "info": "Leave blank to use collection title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quick_add",
+          "label": "Show quick add button",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Navigation",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "tab_label": "SUITS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "tab_label": "JACKET & BLAZERS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "tab_label": "PANTS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "tab_label": "TUXEDOS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "tab_label": "SHORT SUITS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
