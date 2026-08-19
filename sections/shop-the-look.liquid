@@ -1,0 +1,362 @@
+{{ 'section-shop-the-look.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign heading = section.settings.heading
+  assign collection_title = section.settings.collection_title
+  assign collection_subtitle = section.settings.collection_subtitle
+  assign button_text = section.settings.button_text
+  assign button_link = section.settings.button_link
+  assign products_to_show = section.settings.products_to_show | at_most: 8
+  assign background_color = section.settings.background_color
+  
+  if collection == blank
+    assign collection = collections.all
+  endif
+  
+  assign bg_class = ''
+  case background_color
+    when 'white'
+      assign bg_class = 'shop-the-look--bg-white'
+    when 'light-gray'
+      assign bg_class = 'shop-the-look--bg-light-gray'
+    when 'dark-gray'
+      assign bg_class = 'shop-the-look--bg-dark-gray'
+  endcase
+-%}
+
+<div class="shop-the-look section-{{ section.id }} {{ bg_class }}">
+  <div class="shop-the-look__container page-width">
+    {%- if heading != blank -%}
+      <h2 class="shop-the-look__heading h2">{{ heading }}</h2>
+    {%- endif -%}
+    
+    <div class="shop-the-look__content">
+      {%- comment -%} Left: Collection Image with Overlay {%- endcomment -%}
+      <div class="shop-the-look__collection">
+        <div class="shop-the-look__collection-image-wrapper">
+          {%- if collection.image -%}
+            <img
+              src="{{ collection.image | image_url: width: 800 }}"
+              srcset="{{ collection.image | image_url: width: 400 }} 400w,
+                      {{ collection.image | image_url: width: 600 }} 600w,
+                      {{ collection.image | image_url: width: 800 }} 800w,
+                      {{ collection.image | image_url: width: 1000 }} 1000w"
+              alt="{{ collection.image.alt | default: collection.title | escape }}"
+              width="{{ collection.image.width }}"
+              height="{{ collection.image.height }}"
+              loading="lazy"
+              class="shop-the-look__collection-image"
+            >
+          {%- elsif collection.products.first.featured_image -%}
+            <img
+              src="{{ collection.products.first.featured_image | image_url: width: 800 }}"
+              srcset="{{ collection.products.first.featured_image | image_url: width: 400 }} 400w,
+                      {{ collection.products.first.featured_image | image_url: width: 600 }} 600w,
+                      {{ collection.products.first.featured_image | image_url: width: 800 }} 800w"
+              alt="{{ collection.title | escape }}"
+              width="{{ collection.products.first.featured_image.width }}"
+              height="{{ collection.products.first.featured_image.height }}"
+              loading="lazy"
+              class="shop-the-look__collection-image"
+            >
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'shop-the-look__collection-placeholder' }}
+          {%- endif -%}
+          
+          <div class="shop-the-look__collection-overlay">
+            <div class="shop-the-look__collection-content">
+              {%- if collection_title != blank -%}
+                <h3 class="shop-the-look__collection-title">{{ collection_title }}</h3>
+              {%- endif -%}
+              
+              {%- if collection_subtitle != blank -%}
+                <p class="shop-the-look__collection-subtitle">{{ collection_subtitle }}</p>
+              {%- endif -%}
+              
+              {%- if button_text != blank and button_link != blank -%}
+                <a href="{{ button_link }}" class="shop-the-look__collection-button button button--primary">
+                  {{ button_text }}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {%- comment -%} Right: Product Grid with Carousel {%- endcomment -%}
+      <div class="shop-the-look__products">
+        {%- if collection.products.size > 0 -%}
+          <div class="shop-the-look__carousel">
+            <div class="shop-the-look__track">
+              {%- assign page_1_products = 0 -%}
+              {%- assign page_2_products = 0 -%}
+              
+              {%- for product in collection.products limit: products_to_show -%}
+                {%- if forloop.index <= 4 -%}
+                  {%- assign page_1_products = page_1_products | plus: 1 -%}
+                {%- else -%}
+                  {%- assign page_2_products = page_2_products | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+              
+              {%- comment -%} Page 1 {%- endcomment -%}
+              <div class="shop-the-look__page shop-the-look__page--active">
+                {%- for product in collection.products limit: 4 -%}
+                  <div class="shop-the-look__card">
+                    <a href="{{ product.url }}" class="shop-the-look__card-link">
+                      <div class="shop-the-look__image-wrapper">
+                        {%- if product.featured_image -%}
+                          <img
+                            src="{{ product.featured_image | image_url: width: 400 }}"
+                            srcset="{{ product.featured_image | image_url: width: 200 }} 200w,
+                                    {{ product.featured_image | image_url: width: 300 }} 300w,
+                                    {{ product.featured_image | image_url: width: 400 }} 400w,
+                                    {{ product.featured_image | image_url: width: 500 }} 500w"
+                            alt="{{ product.featured_image.alt | escape }}"
+                            width="{{ product.featured_image.width }}"
+                            height="{{ product.featured_image.height }}"
+                            loading="lazy"
+                            class="shop-the-look__image"
+                          >
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag: 'shop-the-look__placeholder' }}
+                        {%- endif -%}
+                      </div>
+                      
+                      <div class="shop-the-look__info">
+                        <h4 class="shop-the-look__product-title">
+                          {{ product.title }}
+                        </h4>
+                        
+                        <div class="shop-the-look__price">
+                          {%- if product.compare_at_price > product.price -%}
+                            <span class="shop-the-look__price--sale">
+                              {{ product.price | money }}
+                            </span>
+                            <span class="shop-the-look__price--compare">
+                              {{ product.compare_at_price | money }}
+                            </span>
+                          {%- else -%}
+                            <span class="shop-the-look__price--regular">
+                              {{ product.price | money }}
+                            </span>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {%- endfor -%}
+              </div>
+              
+              {%- comment -%} Page 2 (if more than 4 products) {%- endcomment -%}
+              {%- if page_2_products > 0 -%}
+                <div class="shop-the-look__page">
+                  {%- for product in collection.products limit: products_to_show offset: 4 -%}
+                    <div class="shop-the-look__card">
+                      <a href="{{ product.url }}" class="shop-the-look__card-link">
+                        <div class="shop-the-look__image-wrapper">
+                          {%- if product.featured_image -%}
+                            <img
+                              src="{{ product.featured_image | image_url: width: 400 }}"
+                              srcset="{{ product.featured_image | image_url: width: 200 }} 200w,
+                                      {{ product.featured_image | image_url: width: 300 }} 300w,
+                                      {{ product.featured_image | image_url: width: 400 }} 400w,
+                                      {{ product.featured_image | image_url: width: 500 }} 500w"
+                              alt="{{ product.featured_image.alt | escape }}"
+                              width="{{ product.featured_image.width }}"
+                              height="{{ product.featured_image.height }}"
+                              loading="lazy"
+                              class="shop-the-look__image"
+                            >
+                          {%- else -%}
+                            {{ 'product-1' | placeholder_svg_tag: 'shop-the-look__placeholder' }}
+                          {%- endif -%}
+                        </div>
+                        
+                        <div class="shop-the-look__info">
+                          <h4 class="shop-the-look__product-title">
+                            {{ product.title }}
+                          </h4>
+                          
+                          <div class="shop-the-look__price">
+                            {%- if product.compare_at_price > product.price -%}
+                              <span class="shop-the-look__price--sale">
+                                {{ product.price | money }}
+                              </span>
+                              <span class="shop-the-look__price--compare">
+                                {{ product.compare_at_price | money }}
+                              </span>
+                            {%- else -%}
+                              <span class="shop-the-look__price--regular">
+                                {{ product.price | money }}
+                              </span>
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+            
+            {%- if page_2_products > 0 -%}
+              <div class="shop-the-look__controls">
+                <button
+                  type="button"
+                  class="shop-the-look__dot shop-the-look__dot--active"
+                  data-page="0"
+                  aria-label="View page 1"
+                >
+                  <span class="visually-hidden">Page 1</span>
+                </button>
+                <button
+                  type="button"
+                  class="shop-the-look__dot"
+                  data-page="1"
+                  aria-label="View page 2"
+                >
+                  <span class="visually-hidden">Page 2</span>
+                </button>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- else -%}
+          <div class="shop-the-look__empty">
+            <p>{{ 'sections.collection_list.empty' | t }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('.shop-the-look');
+    
+    sections.forEach(section => {
+      const track = section.querySelector('.shop-the-look__track');
+      const dots = section.querySelectorAll('.shop-the-look__dot');
+      const pages = section.querySelectorAll('.shop-the-look__page');
+      
+      if (!track || dots.length === 0) return;
+      
+      let currentPage = 0;
+      
+      function updateCarousel(pageIndex) {
+        currentPage = pageIndex;
+        
+        // Update pages
+        pages.forEach((page, index) => {
+          page.classList.toggle('shop-the-look__page--active', index === currentPage);
+        });
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('shop-the-look__dot--active', index === currentPage);
+        });
+      }
+      
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const pageIndex = parseInt(dot.dataset.page);
+          updateCarousel(pageIndex);
+        });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Shop the Look",
+  "tag": "section",
+  "class": "section-shop-the-look",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Tailoring Silhouette",
+      "info": "Main title at the top of the section"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Select the collection to showcase"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Number of products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "info": "Maximum 8 products (4 per page)"
+    },
+    {
+      "type": "header",
+      "content": "Collection Image Overlay"
+    },
+    {
+      "type": "text",
+      "id": "collection_title",
+      "label": "Collection Title",
+      "default": "Beyond a Suit",
+      "info": "Title displayed on the collection image"
+    },
+    {
+      "type": "text",
+      "id": "collection_subtitle",
+      "label": "Collection Subtitle",
+      "default": "The Silhouette Speaks for Itself",
+      "info": "Subtitle displayed on the collection image"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "info": "Link for the CTA button"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "light-gray",
+          "label": "Light Gray"
+        },
+        {
+          "value": "dark-gray",
+          "label": "Dark Gray"
+        }
+      ],
+      "default": "white"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the Look"
+    }
+  ]
+}
+{% endschema %}
