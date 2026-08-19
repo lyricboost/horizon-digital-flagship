@@ -140,12 +140,27 @@
         "view_more_text": "View more",
         "view_more_link": "shopify://collections/best-sellers"
       }
+    },
+    "shop_the_look_z3PpQF": {
+      "type": "shop-the-look",
+      "name": "Shop the Look",
+      "settings": {
+        "heading": "Shop the look",
+        "collection": "classic-man",
+        "products_to_show": 4,
+        "collection_title": "Classic Man",
+        "collection_subtitle": "",
+        "button_text": "Shop Now",
+        "button_link": "shopify://collections/classic-man",
+        "background_color": "light-gray"
+      }
     }
   },
   "order": [
     "hero_carousel_AEUUDC",
     "featured_collection_fqtTkn",
     "category_navigation_XYZ123",
-    "featured_collection_3HffUk"
+    "featured_collection_3HffUk",
+    "shop_the_look_z3PpQF"
   ]
 }
